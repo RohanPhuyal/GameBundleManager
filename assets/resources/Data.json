@@ -1,0 +1,300 @@
+{
+    "code": 200,
+    "msg": "success!",
+    "metaData": [],
+    "data": {
+        "hotUpdate": true,
+        "bigUpdate": true,
+        "close": true,
+        "closeDesc": "The server is under maintenance!",
+        "forceBigUpdate": false,
+        "bigUpdateDownloadUrl": "https:\/\/update.checkmygame.live\/CasinoIgnite.apk",
+        "gameBundleVersion": {
+            "1000": {
+                "version": "1.0.3",
+                "s": 1,
+                "order": 99
+            },
+            "1001": {
+                "version": "1.0.3",
+                "s": 1,
+                "order": 98
+            },
+            "1002": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 97
+            },
+            "1003": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 96
+            },
+            "1004": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 95
+            },
+            "1005": {
+                "version": "1.0.1",
+                "s": 1,
+                "order": 94
+            },
+            "1006": {
+                "version": "1.0.0",
+                "s": 2,
+                "order": 93
+            },
+            "1007": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 92
+            },
+            "1008": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 91
+            },
+            "1009": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 90
+            },
+            "1010": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 89
+            },
+            "1011": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 88
+            },
+            "1012": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 87
+            },
+            "1013": {
+                "version": "1.0.1",
+                "s": 1,
+                "order": 86
+            },
+            "1014": {
+                "version": "1.0.1",
+                "s": 2,
+                "order": 85
+            },
+            "1015": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 84
+            },
+            "1016": {
+                "version": "1.0.3",
+                "s": 1,
+                "order": 83
+            },
+            "1017": {
+                "version": "1.0.6",
+                "s": 1,
+                "order": 82
+            },
+            "1018": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 81
+            },
+            "1019": {
+                "version": "1.0.2",
+                "s": 1,
+                "order": 80
+            },
+            "1020": {
+                "version": "1.0.3",
+                "s": 1,
+                "order": 79
+            },
+            "1021": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 78
+            },
+            "1022": {
+                "version": "1.0.4",
+                "s": 1,
+                "order": 77
+            },
+            "1023": {
+                "version": "1.0.7",
+                "s": 1,
+                "order": 76
+            },
+            "1024": {
+                "version": "1.0.1",
+                "s": 1,
+                "order": 75
+            },
+            "1027": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 74
+            },
+            "1029": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 73
+            },
+            "1030": {
+                "version": "1.0.2",
+                "s": 1,
+                "order": 72
+            },
+            "1031": {
+                "version": "1.0.1",
+                "s": 1,
+                "order": 71
+            },
+            "1040": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 70
+            },
+            "1041": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 69
+            },
+            "1042": {
+                "version": "1.0.0",
+                "s": 2,
+                "order": 68
+            },
+            "1043": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 67
+            },
+            "1044": {
+                "version": "1.0.0",
+                "s": 5,
+                "order": 66
+            },
+            "1045": {
+                "version": "1.0.0",
+                "s": 2,
+                "order": 10
+            },
+            "1046": {
+                "version": "1.0.0",
+                "s": 4,
+                "order": 64
+            },
+            "2002": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 63
+            },
+            "2009": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 62
+            },
+            "2010": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 61
+            },
+            "2012": {
+                "version": "1.0.0",
+                "s": 5,
+                "order": 60
+            },
+            "2015": {
+                "version": "1.0.0",
+                "s": 3,
+                "order": 57
+            },
+            "3002": {
+                "version": "1.0.2",
+                "s": 1,
+                "order": 52
+            },
+            "3003": {
+                "version": "1.0.2",
+                "s": 1,
+                "order": 51
+            },
+            "3004": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 50
+            },
+            "3005": {
+                "version": "1.0.1",
+                "s": 1,
+                "order": 49
+            },
+            "3006": {
+                "version": "1.0.2",
+                "s": 1,
+                "order": 48
+            },
+            "3007": {
+                "version": "1.0.2",
+                "s": 1,
+                "order": 47
+            },
+            "3009": {
+                "version": "1.0.2",
+                "s": 1,
+                "order": 46
+            },
+            "2014": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 58
+            },
+            "2016": {
+                "version": "1.0.0",
+                "s": 2,
+                "order": 55
+            },
+            "2017": {
+                "version": "1.0.0.0",
+                "s": 2,
+                "order": 10
+            },
+            "2013": {
+                "version": "1.0.0",
+                "s": 1,
+                "order": 59
+            },
+            "2018": {
+                "version": "1.0.0.0",
+                "s": 1,
+                "order": 10
+            },
+            "9000": {
+                "version": "1.0.0",
+                "s": 2,
+                "order": 15
+            },
+            "3090": {
+                "version": "1.0.0",
+                "s": 4,
+                "order": 99
+            },
+            "3010": {
+                "version": "1.0.0",
+                "s": 6,
+                "order": 1000
+            },
+            "3091": {
+                "version": "1.00.0",
+                "s": 6,
+                "order": 2
+            }
+        }
+    }
+}
