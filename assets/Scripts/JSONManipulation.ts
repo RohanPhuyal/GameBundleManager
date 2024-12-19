@@ -1,87 +1,154 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
 const { ccclass, property } = cc._decorator;
-interface GameBundleVersion {
+
+interface GameBundleVersionEntry {
     version: string;
     s: number;
     order: number;
 }
 
+interface GameBundleVersion {
+    [key: string]: GameBundleVersionEntry;
+}
+
+interface GameTypes {
+    slot: string[];
+    fish: string[];
+    other: string[];
+}
+
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GameBundleSorter extends cc.Component {
 
-    @property(cc.JsonAsset) jsonData: cc.JsonAsset = null;
-    // LIFE-CYCLE CALLBACKS:
-    @property(cc.Node) scrollViewItem: cc.Node = null;
-    customOrder = "4,5";
-    @property(cc.EditBox) editBox: cc.EditBox = null;
-    entries;
-    // onLoad () {}
-    
+    @property(cc.JsonAsset) gameBundleData: cc.JsonAsset = null;
+    @property(cc.Node) displayNode: cc.Node = null;
+    @property(cc.EditBox) customOrderInput: cc.EditBox = null;
+
+    private sortedGameBundles: [string, GameBundleVersionEntry][] = [];
+    private allGameBundles: [string, GameTypes][] = [];
+    private slotGameBundles: [string, GameTypes][] = [];
+    private fishGameBundles: [string, GameTypes][] = [];
+    private otherGameBundles: [string, GameTypes][] = [];
+    customOrderString = "4,5";
+    private displayText = "";
+
     start() {
-        this.customSort();
+        this.sortGameBundlesByType("All");
     }
 
-    onButtonClick() {
-        this.customOrder = this.editBox.string;
-        this.customSort();
+    onSortAllButtonClick() {
+        this.customOrderString = this.customOrderInput.string;
+    
+        this.sortGameBundlesByType("All");
+    }
+    onSortSlotButtonClick() {
+        this.customOrderString = this.customOrderInput.string;
+        this.sortGameBundlesByType("Slot");
+    }
+    onSortFishButtonClick() {
+        this.customOrderString = this.customOrderInput.string;
+        this.sortGameBundlesByType("Fish");
+    }
+    onSortOtherButtonClick() {
+        this.customOrderString = this.customOrderInput.string;
+        this.sortGameBundlesByType("Others");
+    }
+    resetPreviousData() {
+        this.sortedGameBundles = [];
+        this.slotGameBundles = [];
+        this.fishGameBundles = [];
+        this.otherGameBundles = [];
     }
 
-    customSort() {
-        this.editBox.string = this.customOrder;
-        const array = this.customOrder.split(',').map(Number);
-        // let customOrder = [87, 95, 72];
-        let customOrder = array;
-        cc.log(customOrder);
-        let temp = [];
+    sortGameBundles() {
+        this.resetPreviousData();
+        this.customOrderInput.string = this.customOrderString;
+        const customOrderArray = this.customOrderString.split(',').map(Number);
+        const prioritizedEntries: [string, GameBundleVersionEntry][] = [];
 
-        const entries = Object.entries(this.jsonData.json.data.gameBundleVersion);
+        // Parse the gameBundleVersion entries
+        const gameBundleEntries: [string, GameBundleVersionEntry][] = Object.entries(this.gameBundleData.json.data.gameBundleVersion);
 
-        //sort for ascending (order)
-        entries.sort((a, b) => {
-            const o1 = Object.values(a[1])[2];
-            const o2 = Object.values(b[1])[2];
-            return o1 - o2;
-        });
+        // Sort by `order` property in ascending order
+        gameBundleEntries.sort((a, b) => a[1].order - b[1].order);
 
         // Sort custom order first
-        for (let i = 0; i < customOrder.length; i++) {
-            for (let j = 0; j < entries.length; j++) {
-                const value = Object.values(entries[j][1])[1];
-                if (value === customOrder[i]) {
-                    temp.push(entries[j]);
-                    entries.splice(j, 1);
+        for (const priority of customOrderArray) {
+            for (let j = 0; j < gameBundleEntries.length; j++) {
+                const gameEntryS = gameBundleEntries[j][1].s; // Use `s` directly
+                if (gameEntryS === priority) {
+                    prioritizedEntries.push(gameBundleEntries[j]);
+                    gameBundleEntries.splice(j, 1);
                     j--; // Decrement index to avoid skipping elements due to splice
                 }
             }
         }
-        //Sort for ascending (s)
-        entries.sort((a, b) => {
-            const s1 = Object.values(a[1])[1];
-            const s2 = Object.values(b[1])[1];
-            return s1 - s2;
-        });
+
+        // Sort remaining entries by `s` property in ascending order
+        gameBundleEntries.sort((a, b) => a[1].s - b[1].s);
 
         // Merge the sorted custom-order elements with the rest of the array
-        let finalEntries = [...temp, ...entries];
-        cc.log(finalEntries);
-        let showString = "";
-
-        for (let i = 0; i < finalEntries.length; i++) {
-            const obj = finalEntries[i][1];
-            const objText = JSON.stringify(obj);
-            showString += finalEntries[i][0];
-            showString += "\t" + objText;
-            showString += "\n";
+        this.sortedGameBundles = [...prioritizedEntries, ...gameBundleEntries];
+        cc.log(this.sortedGameBundles);
+    }
+    sortGameBundlesByType(sortType: string) {
+        let filteredGameBundles: [string, GameBundleVersionEntry][] = [];
+        switch (sortType) {
+            case "All":
+                this.sortGameBundles();
+                filteredGameBundles = this.sortedGameBundles.filter(([key]) => {
+                    const keyNumber = Number(key);
+                    if (keyNumber >= 1000 && keyNumber <= 1999) {
+                        this.allGameBundles.push([key, this.gameBundleData.json.data.gameBundleVersion[key]]);
+                    }
+                });
+                cc.log(this.allGameBundles);
+                this.displayGameBundleDetails(this.allGameBundles);
+                break;
+            case "Slot":
+                this.sortGameBundles();
+                filteredGameBundles = this.sortedGameBundles.filter(([key]) => {
+                    const keyNumber = Number(key);
+                    if (keyNumber >= 1000 && keyNumber <= 1999) {
+                        this.slotGameBundles.push([key, this.gameBundleData.json.data.gameBundleVersion[key]]);
+                    }
+                });
+                cc.log(this.slotGameBundles);
+                this.displayGameBundleDetails(this.slotGameBundles);
+                break;
+            case "Fish":
+                this.sortGameBundles();
+                filteredGameBundles = this.sortedGameBundles.filter(([key]) => {
+                    const keyNumber = Number(key);
+                    if (keyNumber >= 2000 && keyNumber <= 2999) {
+                        this.fishGameBundles.push([key, this.gameBundleData.json.data.gameBundleVersion[key]]);
+                    }
+                });
+                cc.log(this.fishGameBundles);
+                this.displayGameBundleDetails(this.fishGameBundles);
+                break;
+            case "Others":
+                this.sortGameBundles();
+                filteredGameBundles = this.sortedGameBundles.filter(([key]) => {
+                    const keyNumber = Number(key);
+                    if (keyNumber >= 3000) {
+                        this.otherGameBundles.push([key, this.gameBundleData.json.data.gameBundleVersion[key]]);
+                    }
+                });
+                cc.log(this.otherGameBundles);
+                this.displayGameBundleDetails(this.otherGameBundles);
+                break;
         }
-        this.scrollViewItem.getComponent(cc.Label).string = showString;
     }
 
+    displayGameBundleDetails(anyGameBundle: [string, GameBundleVersionEntry][] | [string, GameTypes][]) {
+        // Build display string
+        this.displayText = "";
+        for (const [key, gameBundle] of anyGameBundle) {
+            const gameBundleDetails = JSON.stringify(gameBundle);
+            this.displayText += key + "\t" + gameBundleDetails + "\n";
+        }
 
-    // update (dt) {}
+        // Update the scroll view label
+        this.displayNode.getComponent(cc.Label).string = this.displayText;
+    }
 }
