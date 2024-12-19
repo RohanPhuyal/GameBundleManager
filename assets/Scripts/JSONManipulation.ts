@@ -22,13 +22,14 @@ export default class GameBundleSorter extends cc.Component {
     @property(cc.JsonAsset) gameBundleData: cc.JsonAsset = null;
     @property(cc.Node) displayNode: cc.Node = null;
     @property(cc.EditBox) customOrderInput: cc.EditBox = null;
+    @property(cc.Node) contentNode: cc.Node = null; // Content node in the ScrollView
 
     private sortedGameBundles: [string, GameBundleVersionEntry][] = [];
-    private allGameBundles: [string, GameTypes][] = [];
+    private allGameBundles: [string, GameBundleVersionEntry][] = [];
     private slotGameBundles: [string, GameTypes][] = [];
     private fishGameBundles: [string, GameTypes][] = [];
     private otherGameBundles: [string, GameTypes][] = [];
-    customOrderString = "4,5";
+    private customOrderString = "4,5";
     private displayText = "";
 
     start() {
@@ -37,7 +38,6 @@ export default class GameBundleSorter extends cc.Component {
 
     onSortAllButtonClick() {
         this.customOrderString = this.customOrderInput.string;
-    
         this.sortGameBundlesByType("All");
     }
     onSortSlotButtonClick() {
@@ -95,12 +95,7 @@ export default class GameBundleSorter extends cc.Component {
         switch (sortType) {
             case "All":
                 this.sortGameBundles();
-                filteredGameBundles = this.sortedGameBundles.filter(([key]) => {
-                    const keyNumber = Number(key);
-                    if (keyNumber >= 1000 && keyNumber <= 1999) {
-                        this.allGameBundles.push([key, this.gameBundleData.json.data.gameBundleVersion[key]]);
-                    }
-                });
+                this.allGameBundles=this.sortedGameBundles;
                 cc.log(this.allGameBundles);
                 this.displayGameBundleDetails(this.allGameBundles);
                 break;
@@ -150,5 +145,11 @@ export default class GameBundleSorter extends cc.Component {
 
         // Update the scroll view label
         this.displayNode.getComponent(cc.Label).string = this.displayText;
+
+        // Adjust content node height based on the label's content height
+        this.scheduleOnce(() => {
+            const labelHeight = this.displayNode.height; // Get the label's height
+            this.contentNode.height = labelHeight; // Set the content node height
+        }, 0);
     }
 }
